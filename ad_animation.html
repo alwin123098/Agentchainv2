@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude 39s Ad Animation</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #121317;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        iframe.active {
+            opacity: 1;
+        }
+        .voiceover {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            font-family: 'Noto Serif', serif;
+            font-size: 24px;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .voiceover.visible {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <iframe id="frame1" src="https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sX2VlNTBkOTY3NWQ2ZjRiMjg5YWQ2ZGExMWI5NzlhNDFhEgsSBxDMkrPGiAEYAZIBJAoKcHJvamVjdF9pZBIWQhQxMzQ2NDkxODM3MDc1NTE5NDQ3NQ&filename=&opi=96797242"></iframe>
+        <iframe id="frame2" src="https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sX2RjMzI0YzE4MzhhOTQ3NGQ4YjU3ZTY5MWVlNWRiZDA5EgsSBxDMkrPGiAEYAZIBJAoKcHJvamVjdF9pZBIWQhQxMzQ2NDkxODM3MDc1NTE5NDQ3NQ&filename=&opi=96797242"></iframe>
+        <iframe id="frame3" src="https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sX2Q3MzBiMDA0ZWY0YzQ1ZGM4OTZhM2ExNTkzYmZiZjU2EgsSBxDMkrPGiAEYAZIBJAoKcHJvamVjdF9pZBIWQhQxMzQ2NDkxODM3MDc1NTE5NDQ3NQ&filename=&opi=96797242"></iframe>
+        <iframe id="frame4" src="https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sXzY3OTBmMzM2ZDRmODRmODFhZmY2ODhlYWRkZDU1ODIwEgsSBxDMkrPGiAEYAZIBJAoKcHJvamVjdF9pZBIWQhQxMzQ2NDkxODM3MDc1NTE5NDQ3NQ&filename=&opi=96797242"></iframe>
+        <iframe id="frame5" src="https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sXzViYzcxYzEyOTU5MzQ0NmM4MjIyYzFkYTA5NzAzNWM4EgsSBxDMkrPGiAEYAZIBJAoKcHJvamVjdF9pZBIWQhQxMzQ2NDkxODM3MDc1NTE5NDQ3NQ&filename=&opi=96797242"></iframe>
+
+        <div id="vo" class="voiceover"></div>
+    </div>
+
+    <script>
+        const frames = [
+            { id: 'frame1', start: 0, end: 5, text: "Meet Claude. Your partner in thought, built for the way you work." },
+            { id: 'frame2', start: 5, end: 13, text: "Whether you're drafting the next great story, or refining a complex proposal, Claude helps you find the perfect words, effortlessly." },
+            { id: 'frame3', start: 13, end: 21, text: "Coding? Claude understands your logic. From debugging deep architectures to building from scratch, it's the second set of eyes every engineer needs." },
+            { id: 'frame4', start: 21, end: 30, text: "And now, Claude speaks. Experience a natural, fluid conversation that keeps your ideas moving, even when you're on the go." },
+            { id: 'frame5', start: 30, end: 39, text: "Ethereal intelligence. Human-centric design. Claude: Your AI partner. Download now at claude.ai." }
+        ];
+
+        let currentFrameIndex = -1;
+        const voElement = document.getElementById('vo');
+
+        function update(time) {
+            let index = frames.findIndex(f => time >= f.start && time < f.end);
+            if (index !== -1 && index !== currentFrameIndex) {
+                if (currentFrameIndex !== -1) {
+                    document.getElementById(frames[currentFrameIndex].id).classList.remove('active');
+                }
+                document.getElementById(frames[index].id).classList.add('active');
+                voElement.innerText = frames[index].text;
+                voElement.classList.add('visible');
+                currentFrameIndex = index;
+            }
+        }
+
+        let startTime = Date.now();
+        function tick() {
+            let elapsed = (Date.now() - startTime) / 1000;
+            update(elapsed);
+            if (elapsed < 39) {
+                requestAnimationFrame(tick);
+            }
+        }
+
+        // Wait for all iframes to load before starting
+        window.onload = () => {
+             // Add a small delay to ensure rendering is stable
+             setTimeout(tick, 1000);
+             startTime = Date.now() + 1000;
+        };
+    </script>
+</body>
+</html>
